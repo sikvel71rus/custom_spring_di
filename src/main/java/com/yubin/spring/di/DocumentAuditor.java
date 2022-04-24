@@ -5,22 +5,18 @@ package com.yubin.spring.di;
  */
 public class DocumentAuditor {
 
-    private Announcer announcer = new ConsoleAnnouncer();
+    private Announcer announcer = ObjectFactory.getInstance().createObject(Announcer.class);
 
-    private DocumentChecker documentChecker = new AuditDocumentChecker();
+    private DocumentChecker documentChecker = ObjectFactory.getInstance().createObject(DocumentChecker.class);
 
     public void start(Company company){
         announcer.announce("Выслан запрос на получение документов");
-
         documentChecker.checkDocumentAvailability();
-
         audit(company);
-
         announcer.announce("Аудит документов закончен, все хорошо!");
-
     }
 
     private void audit(Company company) {
-        System.out.println("Происходит процесс аудита, все нервничают!");
+        System.out.println(String.format("Происходит процесс аудита в компании %s!", company.name));
     }
 }
