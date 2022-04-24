@@ -5,13 +5,18 @@ package com.yubin.spring.di;
  */
 public class DocumentAuditor {
 
+    private Announcer announcer = new ConsoleAnnouncer();
+
+    private DocumentChecker documentChecker = new AuditDocumentChecker();
+
     public void start(Company company){
-        //todo Предупредить компанию о необходимости получить документы
-        //todo Вывести документы из компании (если ранее не получили все необходимые)
+        announcer.announce("Выслан запрос на получение документов");
+
+        documentChecker.checkDocumentAvailability();
 
         audit(company);
 
-        //todo Сообщить о результатах проверки
+        announcer.announce("Аудит документов закончен, все хорошо!");
 
     }
 
