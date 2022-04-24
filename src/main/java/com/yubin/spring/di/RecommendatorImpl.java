@@ -2,7 +2,7 @@ package com.yubin.spring.di;
 
 public class RecommendatorImpl implements Recommendator {
 
-    @InjectProperty
+    @InjectProperty("anotherService")
     private String productService;
 
     @Override

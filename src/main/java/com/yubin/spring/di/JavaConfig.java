@@ -1,10 +1,11 @@
 package com.yubin.spring.di;
 
+import lombok.Getter;
 import org.reflections.Reflections;
 
 import java.util.Map;
 import java.util.Set;
-
+@Getter
 public class JavaConfig implements Config {
     private Reflections scanner;
     private Map<Class,Class> ifcToImplClassMap;
