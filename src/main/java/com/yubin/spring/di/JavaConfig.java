@@ -2,22 +2,30 @@ package com.yubin.spring.di;
 
 import org.reflections.Reflections;
 
+import java.util.Map;
 import java.util.Set;
 
 public class JavaConfig implements Config {
     private Reflections scanner;
+    private Map<Class,Class> ifcToImplClassMap;
 
-    public JavaConfig(String packageToScan) {
+    public JavaConfig(String packageToScan, Map<Class, Class> ifcToImplClassMap) {
         this.scanner = new Reflections(packageToScan);
+        this.ifcToImplClassMap = ifcToImplClassMap;
     }
 
     @Override
     public <T> Class<? extends T> getImplClass(Class<T> ifc) {
-        Set<Class<? extends T>> classes = scanner.getSubTypesOf(ifc);
-        if(classes.size()!=1){
-            throw new RuntimeException(ifc + " has 0 ore more then 1 impl");
-        }
-        //Берем первый объект из множества set
-        return classes.iterator().next();
+        //Берем из мапы, чтобы уменьшить
+         return ifcToImplClassMap.computeIfAbsent(ifc,aClass-> {
+            Set<Class<? extends T>> classes = scanner.getSubTypesOf(ifc);
+            if(classes.size()!=1){
+                throw new RuntimeException(ifc + " has 0 ore more than 1 impl, please update your config map");
+            }
+            //Берем первый объект из множества set
+             return classes.iterator().next();
+        });
+
+
     }
 }

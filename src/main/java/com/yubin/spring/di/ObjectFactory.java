@@ -2,9 +2,17 @@ package com.yubin.spring.di;
 
 import lombok.SneakyThrows;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ObjectFactory {
     private static ObjectFactory ourInstance = new ObjectFactory();
-    private Config config = new JavaConfig("com.yubin.spring.di");
+    private Config config;
+
+    public ObjectFactory() {
+        this.config = new JavaConfig("com.yubin.spring.di",
+                new HashMap<>(Map.of(DocumentChecker.class,LawDocumentChecker.class)));
+    }
 
     public static ObjectFactory getInstance(){
         return ourInstance;
