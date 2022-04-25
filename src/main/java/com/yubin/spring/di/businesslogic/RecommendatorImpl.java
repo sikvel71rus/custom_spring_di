@@ -9,7 +9,7 @@ public class RecommendatorImpl implements Recommendator {
 
     @Override
     public void recommend() {
-        System.out.println(String.format("Так же воспользуйтесь прочими услугами, например %s", productService));
+        System.out.printf("Так же воспользуйтесь прочими услугами, например %s%n", productService);
 
     }
 }

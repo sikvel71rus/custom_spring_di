@@ -1,15 +1,16 @@
 package com.yubin.spring.di.businesslogic;
 
+import com.yubin.spring.di.config.InjectByType;
 import com.yubin.spring.di.config.ObjectFactory;
 
 /**
  * Аудитор документов компании
  */
 public class DocumentAuditor {
-
-    private Announcer announcer = ObjectFactory.getInstance().createObject(Announcer.class);
-
-    private DocumentChecker documentChecker = ObjectFactory.getInstance().createObject(DocumentChecker.class);
+    @InjectByType
+    private Announcer announcer;
+    @InjectByType
+    private DocumentChecker documentChecker;
 
     public void start(Company company){
         announcer.announce("Выслан запрос на получение документов");
