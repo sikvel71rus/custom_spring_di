@@ -1,4 +1,4 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.businesslogic;
 
 public class LawDocumentChecker implements DocumentChecker {
     @Override

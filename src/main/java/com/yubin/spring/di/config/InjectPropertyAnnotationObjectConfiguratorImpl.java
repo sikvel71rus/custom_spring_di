@@ -1,4 +1,4 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.config;
 
 import lombok.SneakyThrows;
 
@@ -16,6 +16,7 @@ public class InjectPropertyAnnotationObjectConfiguratorImpl implements ObjectCon
     @SneakyThrows
     public InjectPropertyAnnotationObjectConfiguratorImpl() {
         String path = ClassLoader.getSystemClassLoader().getResource("application.properties").getPath();
+        //TODO Добавить корректный вывод русского языка в консоль
         Stream<String> lines = new BufferedReader(new FileReader(path, StandardCharsets.UTF_8)).lines();
         propertiesMap = lines.map(line -> line.split("=")).collect(Collectors.toMap(arr -> arr[0], arr -> arr[1]));
     }

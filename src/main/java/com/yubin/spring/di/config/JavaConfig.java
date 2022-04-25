@@ -1,4 +1,4 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.config;
 
 import lombok.Getter;
 import org.reflections.Reflections;
@@ -17,7 +17,7 @@ public class JavaConfig implements Config {
 
     @Override
     public <T> Class<? extends T> getImplClass(Class<T> ifc) {
-        //Берем из мапы, чтобы уменьшить
+        //Берем из мапы, чтобы уменьшить с
          return ifcToImplClassMap.computeIfAbsent(ifc,aClass-> {
             Set<Class<? extends T>> classes = scanner.getSubTypesOf(ifc);
             if(classes.size()!=1){

@@ -1,4 +1,4 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.businesslogic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,6 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.businesslogic;
+
+import com.yubin.spring.di.config.InjectProperty;
 
 public class RecommendatorImpl implements Recommendator {
 

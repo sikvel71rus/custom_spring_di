@@ -1,4 +1,6 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.businesslogic;
+
+import com.yubin.spring.di.config.ObjectFactory;
 
 public class ConsoleAnnouncer implements Announcer {
     private Recommendator recommendator = ObjectFactory.getInstance().createObject(Recommendator.class);

@@ -1,4 +1,4 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.config;
 
 public interface ObjectConfigurator {
     void configure(Object t);

@@ -1,5 +1,7 @@
-package com.yubin.spring.di;
+package com.yubin.spring.di.config;
 
+import com.yubin.spring.di.businesslogic.DocumentChecker;
+import com.yubin.spring.di.businesslogic.LawDocumentChecker;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class ObjectFactory {
     @SneakyThrows
     public ObjectFactory() {
         this.config = new JavaConfig("com.yubin.spring.di",
-                new HashMap<>(Map.of(DocumentChecker.class,LawDocumentChecker.class)));
+                new HashMap<>(Map.of(DocumentChecker.class, LawDocumentChecker.class)));
         for (Class<? extends ObjectConfigurator> aClass : config.getScanner().getSubTypesOf(ObjectConfigurator.class)) {
             configurators.add(aClass.getDeclaredConstructor().newInstance());
         }
