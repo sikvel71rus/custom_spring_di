@@ -23,7 +23,7 @@ public class InjectPropertyAnnotationObjectConfiguratorImpl implements ObjectCon
 
     @Override
     @SneakyThrows
-    public void configure(Object t) {
+    public void configure(Object t, ApplicationContext context) {
         //настраиваем объект, смотрим есть ли филды,
         //в которые нужно добавить значение
         Class<?> implClass = t.getClass();

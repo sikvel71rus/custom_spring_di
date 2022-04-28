@@ -1,7 +1,6 @@
 package com.yubin.spring.di.businesslogic;
 
 import com.yubin.spring.di.config.InjectByType;
-import com.yubin.spring.di.config.ObjectFactory;
 
 /**
  * Аудитор документов компании
@@ -20,6 +19,6 @@ public class DocumentAuditor {
     }
 
     private void audit(Company company) {
-        System.out.println(String.format("Происходит процесс аудита в компании %s!", company.name));
+        System.out.printf("Происходит процесс аудита в компании %s!%n", company.name);
     }
 }
