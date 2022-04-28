@@ -3,15 +3,14 @@ package com.yubin.spring.di.config;
 import lombok.SneakyThrows;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectFactory {
     private List<ObjectConfigurator> configurators = new ArrayList<>();
+    private List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
     private final ApplicationContext context;
 
     @SneakyThrows
@@ -20,8 +19,11 @@ public class ObjectFactory {
         for (Class<? extends ObjectConfigurator> aClass :context.getConfig().getScanner().getSubTypesOf(ObjectConfigurator.class)) {
             configurators.add(aClass.getDeclaredConstructor().newInstance());
         }
-    }
+        for (Class<? extends ProxyConfigurator> aClass :context.getConfig().getScanner().getSubTypesOf(ProxyConfigurator.class)) {
+            proxyConfigurators.add(aClass.getDeclaredConstructor().newInstance());
+        }
 
+    }
 
     //Создаем объект (можно передать интерфейс)
     //При этом вызываемый конфиг подставит impl class
@@ -44,14 +46,15 @@ public class ObjectFactory {
         //Вызываем init метод, если он есть
         invokeInit(implClass, t);
 
-        if (implClass.isAnnotationPresent(Deprecated.class)){
-        return (T) Proxy.newProxyInstance(implClass.getClassLoader(), implClass.getInterfaces(), new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                System.out.println("Вы используете УСТАРЕВШИЙ КЛАСС");
-                 return method.invoke(t);
-            }
-        });
+        //Заменяем на прокси если нужно
+        t = wrapWithProxy(implClass, t);
+
+        return t;
+    }
+
+    private <T> T wrapWithProxy(Class<T> implClass, T t) {
+        for (ProxyConfigurator configurator : proxyConfigurators) {
+            t = (T) configurator.replaceWithProxy(t, implClass);
         }
         return t;
     }

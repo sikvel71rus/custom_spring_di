@@ -17,7 +17,7 @@ public class JavaConfig implements Config {
 
     @Override
     public <T> Class<? extends T> getImplClass(Class<T> ifc) {
-        //Берем из мапы, чтобы уменьшить с
+        //Берем из мапы, чтобы уменьшить связанность, легко дописываем новые конфигураторы
          return ifcToImplClassMap.computeIfAbsent(ifc,aClass-> {
             Set<Class<? extends T>> classes = scanner.getSubTypesOf(ifc);
             if(classes.size()!=1){
