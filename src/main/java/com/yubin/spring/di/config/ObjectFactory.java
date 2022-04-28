@@ -2,6 +2,9 @@ package com.yubin.spring.di.config;
 
 import lombok.SneakyThrows;
 
+import javax.annotation.PostConstruct;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +34,30 @@ public class ObjectFactory {
     public <T> T createObject(Class<T> implClass ){
 
         //Создаем новый инстанс объекта
-        T t = implClass.getDeclaredConstructor().newInstance();
+        T t = create(implClass);
 
         //Настраиваем наш объект
-        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
+        configure(t);
 
+        invokeInit(implClass, t);
+
+        return t;
+    }
+
+    private <T> void invokeInit(Class<T> implClass, T t) throws IllegalAccessException, InvocationTargetException {
+        for (Method method : implClass.getMethods()) {
+            if(method.isAnnotationPresent(PostConstruct.class)){
+                method.invoke(t);
+            }
+        }
+    }
+
+    private <T> void configure(T t) {
+        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
+    }
+
+    private <T> T create(Class<T> implClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        T t = implClass.getDeclaredConstructor().newInstance();
         return t;
     }
 }
