@@ -5,6 +5,7 @@ import com.yubin.spring.di.config.InjectByType;
 /**
  * Аудитор документов компании
  */
+@Deprecated
 public class DocumentAuditor {
     @InjectByType
     private Announcer announcer;
