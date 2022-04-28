@@ -4,6 +4,7 @@ import com.yubin.spring.di.config.InjectProperty;
 import com.yubin.spring.di.config.Singleton;
 
 @Singleton
+@Deprecated
 public class RecommendatorImpl implements Recommendator {
 
     @InjectProperty("anotherService")

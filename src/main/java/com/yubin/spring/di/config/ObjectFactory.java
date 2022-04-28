@@ -3,8 +3,10 @@ package com.yubin.spring.di.config;
 import lombok.SneakyThrows;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +41,18 @@ public class ObjectFactory {
         //Настраиваем наш объект
         configure(t);
 
+        //Вызываем init метод, если он есть
         invokeInit(implClass, t);
 
+        if (implClass.isAnnotationPresent(Deprecated.class)){
+        return (T) Proxy.newProxyInstance(implClass.getClassLoader(), implClass.getInterfaces(), new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                System.out.println("Вы используете УСТАРЕВШИЙ КЛАСС");
+                 return method.invoke(t);
+            }
+        });
+        }
         return t;
     }
 
